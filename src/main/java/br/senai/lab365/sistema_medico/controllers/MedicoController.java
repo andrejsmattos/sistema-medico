@@ -21,4 +21,10 @@ public class MedicoController {
     public void criaMedico(@RequestBody MedicoRequest request) {
         service.criaMedico(request);
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void atualizaMedico(@PathVariable Long id, @RequestBody MedicoRequest request) {
+        service.atualizaMedico(id, request);
+    }
 }
