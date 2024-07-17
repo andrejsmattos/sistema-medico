@@ -1,15 +1,24 @@
 package br.senai.lab365.sistema_medico.controllers;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import br.senai.lab365.sistema_medico.dtos.MedicoRequest;
+import br.senai.lab365.sistema_medico.services.MedicoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/medicos")
 public class MedicoController {
 
-    @PostMapping("/medicos")
-    public void createMedico() {
-        System.out.println("Criando médico...");
+    private final MedicoService service;
+
+    public MedicoController(MedicoService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/cadastro")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void criaMedico(@RequestBody MedicoRequest request) {
+        service.criaMedico(request);
     }
 }

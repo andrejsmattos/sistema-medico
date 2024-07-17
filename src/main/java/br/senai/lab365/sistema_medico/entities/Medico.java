@@ -18,6 +18,7 @@ public class Medico {
     @Column(unique = true)
     private String crm;
     private LocalDate dataNascimento;
+    @Enumerated(EnumType.STRING)
     private Especialidades especialidade;
 
     public Medico() {
