@@ -46,4 +46,12 @@ public class MedicoController {
     ) {
         return ResponseEntity.ok(service.listaTodos(numeroPagina, tamanhoPagina));
     }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<MedicoResponse> busca(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(service.busca(id));
+    }
 }

@@ -34,6 +34,18 @@ public class MedicoMapper {
         return medicoGetRequest;
     }
 
+    public static MedicoResponse mapEntityToResponse(Medico source) {
+        if (source == null) return null;
+
+        MedicoResponse target = new MedicoResponse();
+        target.setId(source.getId());
+        target.setNome(source.getNome());
+        target.setCrm(source.getCrm());
+        target.setDataNascimento(source.getDataNascimento());
+        target.setEspecialidade(source.getEspecialidade());
+        return target;
+    }
+
 //    public static List<MedicoResponse> map(List<Medico> source) {
 //        List<MedicoResponse> target = new ArrayList<>();
 //

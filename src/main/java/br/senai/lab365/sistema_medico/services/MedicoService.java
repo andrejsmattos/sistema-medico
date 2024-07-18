@@ -2,6 +2,7 @@ package br.senai.lab365.sistema_medico.services;
 
 import br.senai.lab365.sistema_medico.dtos.MedicoGetRequest;
 import br.senai.lab365.sistema_medico.dtos.MedicoRequest;
+import br.senai.lab365.sistema_medico.dtos.MedicoResponse;
 import br.senai.lab365.sistema_medico.dtos.MedicoResponsePagination;
 import br.senai.lab365.sistema_medico.entities.Medico;
 import br.senai.lab365.sistema_medico.repositories.MedicoRepository;
@@ -13,10 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static br.senai.lab365.sistema_medico.mappers.MedicoMapper.map;
-import static br.senai.lab365.sistema_medico.mappers.MedicoMapper.mapToDto;
+import static br.senai.lab365.sistema_medico.mappers.MedicoMapper.*;
 
 
 @Service
@@ -68,4 +69,9 @@ public class MedicoService {
     }
 
 
+    public MedicoResponse busca(Long id) {
+        Optional<Medico> medicoOptional = repository.findById(id);
+
+        return mapEntityToResponse(medicoOptional.orElseThrow(EntityNotFoundException::new));
+    }
 }
