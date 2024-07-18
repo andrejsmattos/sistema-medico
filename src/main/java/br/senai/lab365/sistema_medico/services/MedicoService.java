@@ -1,13 +1,23 @@
 package br.senai.lab365.sistema_medico.services;
 
+import br.senai.lab365.sistema_medico.dtos.MedicoGetRequest;
 import br.senai.lab365.sistema_medico.dtos.MedicoRequest;
+import br.senai.lab365.sistema_medico.dtos.MedicoResponsePagination;
 import br.senai.lab365.sistema_medico.entities.Medico;
 import br.senai.lab365.sistema_medico.repositories.MedicoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static br.senai.lab365.sistema_medico.mappers.MedicoMapper.map;
+import static br.senai.lab365.sistema_medico.mappers.MedicoMapper.mapToDto;
+
 
 @Service
 public class MedicoService {
@@ -18,7 +28,7 @@ public class MedicoService {
         this.repository = repository;
     }
 
-    public void criaMedico(MedicoRequest request) {
+    public void cadastra(MedicoRequest request) {
         if (repository.existsByCrm(request.crm())) {
             throw new DuplicateKeyException("CRM já cadastrado");
         }
@@ -26,7 +36,7 @@ public class MedicoService {
         repository.save(map(request));
     }
 
-    public void atualizaMedico(Long id, MedicoRequest request) {
+    public void atualiza(Long id, MedicoRequest request) {
         Medico medico = repository
                 .findById(id)
                 .orElseThrow(EntityNotFoundException::new);
@@ -38,5 +48,24 @@ public class MedicoService {
 
         repository.save(medico);
     }
+
+
+    public MedicoResponsePagination listaTodos(int numeroPagina, int tamanhoPagina) {
+        Pageable paginacao = PageRequest.of(numeroPagina, tamanhoPagina);
+        Page<Medico> medicos = repository.findAll(paginacao);
+        List<Medico> listaMedicos = medicos.getContent();
+        List<MedicoGetRequest> conteudo = listaMedicos.stream().map(medico -> mapToDto(medico)).collect(Collectors.toList());
+
+        MedicoResponsePagination medicoResponsePagination = new MedicoResponsePagination();
+        medicoResponsePagination.setConteudo(conteudo);
+        medicoResponsePagination.setTotalPaginas(medicos.getTotalPages());
+        medicoResponsePagination.setTamanhoPagina(medicos.getSize());
+        medicoResponsePagination.setPaginaAtual(medicos.getNumber());
+        medicoResponsePagination.setUltima(medicos.isLast());
+
+        return medicoResponsePagination;
+
+    }
+
 
 }
