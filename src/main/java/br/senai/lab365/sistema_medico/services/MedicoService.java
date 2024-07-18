@@ -74,4 +74,13 @@ public class MedicoService {
 
         return mapEntityToResponse(medicoOptional.orElseThrow(EntityNotFoundException::new));
     }
+
+    public void exclui(Long id) {
+
+        if(repository.existsById(id)) {
+            repository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Médico não encontrado com o id: " + id);
+        }
+    }
 }

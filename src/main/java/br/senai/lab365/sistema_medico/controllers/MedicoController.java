@@ -54,4 +54,13 @@ public class MedicoController {
     ) {
         return ResponseEntity.ok(service.busca(id));
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> exclui(
+            @PathVariable Long id
+    ) {
+        service.exclui(id);
+        return ResponseEntity.noContent().build();
+    }
 }
