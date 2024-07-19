@@ -5,6 +5,7 @@ import br.senai.lab365.sistema_medico.dtos.MedicoRequest;
 import br.senai.lab365.sistema_medico.dtos.MedicoResponse;
 import br.senai.lab365.sistema_medico.dtos.MedicoResponsePagination;
 import br.senai.lab365.sistema_medico.services.MedicoService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class MedicoController {
     @PostMapping("/cadastrar")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> cadastra(
-            @RequestBody MedicoRequest request) {
+            @Valid @RequestBody MedicoRequest request) {
         service.cadastra(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

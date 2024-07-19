@@ -30,8 +30,8 @@ public class MedicoService {
     }
 
     public void cadastra(MedicoRequest request) {
-        if (repository.existsByCrm(request.crm())) {
-            throw new DuplicateKeyException("CRM já cadastrado");
+        if (repository.existsByCrm(request.getCrm())) {
+            throw new DuplicateKeyException("CRM já cadastrado: " + request.getCrm());
         }
 
         repository.save(map(request));
@@ -42,10 +42,10 @@ public class MedicoService {
                 .findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        if (request.nome() != null) medico.setNome(request.nome());
-        if (request.crm() != null) medico.setCrm(request.crm());
-        if (request.dataNascimento() != null) medico.setDataNascimento(request.dataNascimento());
-        if (request.especialidade() != null) medico.setEspecialidade(request.especialidade());
+        if (request.getNome() != null) medico.setNome(request.getNome());
+        if (request.getCrm() != null) medico.setCrm(request.getCrm());
+        if (request.getDataNascimento() != null) medico.setDataNascimento(request.getDataNascimento());
+        if (request.getEspecialidade() != null) medico.setEspecialidade(request.getEspecialidade());
 
         repository.save(medico);
     }
@@ -72,7 +72,11 @@ public class MedicoService {
     public MedicoResponse busca(Long id) {
         Optional<Medico> medicoOptional = repository.findById(id);
 
-        return mapEntityToResponse(medicoOptional.orElseThrow(EntityNotFoundException::new));
+        return mapEntityToResponse(
+                medicoOptional
+                        .orElseThrow(
+                                ()->new EntityNotFoundException("Médico não encontrado com o id: " + id)
+                        ));
     }
 
     public void exclui(Long id) {

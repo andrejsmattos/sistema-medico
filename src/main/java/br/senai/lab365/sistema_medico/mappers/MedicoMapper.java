@@ -18,10 +18,10 @@ public class MedicoMapper {
         if (source == null) return null;
 
         Medico target = new Medico();
-        target.setNome(source.nome());
-        target.setCrm(source.crm());
-        target.setDataNascimento(source.dataNascimento());
-        target.setEspecialidade(source.especialidade());
+        target.setNome(source.getNome());
+        target.setCrm(source.getCrm());
+        target.setDataNascimento(source.getDataNascimento());
+        target.setEspecialidade(source.getEspecialidade());
         return target;
     }
 
