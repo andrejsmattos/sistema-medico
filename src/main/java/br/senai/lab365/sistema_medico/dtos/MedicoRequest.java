@@ -1,10 +1,12 @@
 package br.senai.lab365.sistema_medico.dtos;
 
 import br.senai.lab365.sistema_medico.enums.Especialidades;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -16,6 +18,8 @@ public class MedicoRequest{
     @NotNull(message = "O CRM é obrigatório")
     private String crm;
 
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+//    @JsonFormat(pattern = "dd/MM/yyyy")
     @NotNull(message = "A data de nascimento é obrigatória")
     private LocalDate dataNascimento;
 

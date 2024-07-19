@@ -40,7 +40,9 @@ public class MedicoService {
     public void atualiza(Long id, MedicoRequest request) {
         Medico medico = repository
                 .findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Médico não encontrado com o id: " + id)
+                );
 
         if (request.getNome() != null) medico.setNome(request.getNome());
         if (request.getCrm() != null) medico.setCrm(request.getCrm());
@@ -62,6 +64,7 @@ public class MedicoService {
         medicoResponsePagination.setTotalPaginas(medicos.getTotalPages());
         medicoResponsePagination.setTamanhoPagina(medicos.getSize());
         medicoResponsePagination.setPaginaAtual(medicos.getNumber());
+        medicoResponsePagination.setTotalElementos((int) medicos.getTotalElements());
         medicoResponsePagination.setUltima(medicos.isLast());
 
         return medicoResponsePagination;

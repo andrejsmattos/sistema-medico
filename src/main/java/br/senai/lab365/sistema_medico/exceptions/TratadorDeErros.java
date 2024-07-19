@@ -35,7 +35,7 @@ public class TratadorDeErros {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErroResponse> trataEnumInvalido(HttpMessageNotReadableException exception) {
         ErroResponse response = new ErroResponse();
-        response.setCampo("Especialidade inválida");
+        response.setCampo("Campo inválido");
         response.setMensagem(exception.getLocalizedMessage());
 
         return ResponseEntity.badRequest().body(response);
